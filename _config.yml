@@ -1,0 +1,44 @@
+# Jekyll configuration
+markdown: kramdown
+highlighter: rouge
+paginate: 5
+language: 'en-uk'
+
+# Website info
+name: 'Weronika Gutfeter'
+description: "Code repository and notes."
+
+url: 'https://weronikagutfeter.github.io'
+short_url: 'weronikagutfeter.github.io'
+google_analytics:
+disqus:
+# personal GitHub Pages (username.github.io)
+baseurl: "/"
+
+# Permalinks
+permalink: /:title
+
+# gems and other configs
+plugins: [jekyll-paginate]
+
+safe: false
+lsi: false
+username: weronikagutfeter
+repo: weronikagutfeter.github.io
+branch: master
+production_url: https://weronikagutfeter.github.io/
+source_url: https://github.com/weronikagutfeter/weronikagutfeter.github.io/
+
+exclude:
+  - README.md
+  - Rakefile
+  - Gemfile
+  - Gemfile.lock
+  - changelog.md
+  - "*.Rmd"
+  - vendor
+  - .travis.yml
+  - node_modules
+  - .git
+  - .idea
+  - .github
