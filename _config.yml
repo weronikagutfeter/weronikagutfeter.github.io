@@ -28,7 +28,7 @@ repo: weronikagutfeter.github.io
 branch: master
 production_url: https://weronikagutfeter.github.io/
 source_url: https://github.com/weronikagutfeter/weronikagutfeter.github.io/
-relative_permalinks: false
+
 
 exclude:
   - README.md
