@@ -23,7 +23,7 @@ The following no-finetune approaches are explored:
 1. **Hybrid solutions** Combining the power of the classic detectors and MLLMs
 
 
-## Results
+### Results
 
 The detection results were evaluated using the standard COCO detection metrics: AP (Mean Average Precision), AP@0.5 (Average Precision at IoU=0.50, AP@0.75 (Average Precision at IoU=0.75 and AR (Average Recall with a maximum of 100 detections per image).
 
