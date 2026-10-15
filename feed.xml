@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Weronika Gutfeter - Articles</title>
+    <description>Code repository and notes.</description>
+    <link>
+    https://weronikagutfeter.github.io</link>
+    
+      
+      <item>
+        <title>Classical Object Detectors vs. MLLMs for Child Detection in Images</title>
+        
+          <description>&lt;p&gt;The main goal of this experiment is to identify all children appearing in the images from the &lt;a href=&quot;../../data/parenting_slop_dataset/README.md&quot;&gt;Parenting Slop Dataset&lt;/a&gt;. (Links and broader description of data can be found in &lt;strong&gt;data/parenting_slop_dataset&lt;/strong&gt; directory). 
+A key assumption is to minimize or eliminate the need for additional data collection for training and do not use cloud-based infrastructure.
+Therefore, all models considered in the comparison are open-source and open-weighted.&lt;/p&gt;
+
+</description>
+        
+        <pubDate>Tue, 23 Apr 2024 12:00:00 +0000</pubDate>
+        <link>
+        https://weronikagutfeter.github.io/llms_vs_detectors</link>
+        <guid isPermaLink="true">https://weronikagutfeter.github.io/llms_vs_detectors</guid>
+      </item>
+      
+    
+  </channel>
+</rss>

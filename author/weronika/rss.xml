@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+   
+      <title>weronikagutfeter.github.io</title>
+   
+   <link>https://weronikagutfeter.github.io</link>
+   <description>Code repository and notes.</description>
+   <language>en-uk</language>
+   <managingEditor> </managingEditor>
+   <atom:link href="rss" rel="self" type="application/rss+xml" />
+   
+	<item>
+	  <title>Classical Object Detectors vs. MLLMs for Child Detection in Images</title>
+	  <link>//llms_vs_detectors</link>
+	  <author></author>
+	  <pubDate>2024-04-23T12:00:00+00:00</pubDate>
+	  <guid>//llms_vs_detectors</guid>
+	  <description><![CDATA[
+	     <p>The main goal of this experiment is to identify all children appearing in the images from the <a href="../../data/parenting_slop_dataset/README.md">Parenting Slop Dataset</a>. (Links and broader description of data can be found in <strong>data/parenting_slop_dataset</strong> directory). 
+A key assumption is to minimize or eliminate the need for additional data collection for training and do not use cloud-based infrastructure.
+Therefore, all models considered in the comparison are open-source and open-weighted.</p>
+
+<p>The following no-finetune approaches are explored:</p>
+
+<ol>
+  <li><strong>Classical person detector + age estimation:</strong> A conventional object detector is first used to identify all people in the image. An age estimation model is then applied to the detected regions to distinguish children from adults and filter out the latter.</li>
+  <li><strong>MLLM-based child localization:</strong> An MLLM is prompted to identify and localize all children visible in the image, providing a direct end-to-end approach to child detection.</li>
+  <li><strong>Hybrid solutions</strong> Combining the power of the classic detectors and MLLMs</li>
+</ol>
+
+<h3 id="results">Results</h3>
+
+<p>The detection results were evaluated using the standard COCO detection metrics: AP (Mean Average Precision), AP@0.5 (Average Precision at IoU=0.50, AP@0.75 (Average Precision at IoU=0.75 and AR (Average Recall with a maximum of 100 detections per image).</p>
+
+<p>Baseline detector in the comparison was YOLO26x from <a href="https://docs.ultralytics.com/models/yolo26">Ultralytics</a>. For end-to-end pipeline with MLLMs two prompts was used:
+all-people prompt - model was asked to localize all the people in image and attach them a label adult or child, only-children propmpt - model was asked directly to localize only children.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Approach</th>
+      <th>Details</th>
+      <th>AP</th>
+      <th>AP@0.5</th>
+      <th>AP@0.75</th>
+      <th>AR</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Baseline person detector</td>
+      <td>YOLO26x + no age estimation</td>
+      <td>0.546</td>
+      <td>0.672</td>
+      <td>0.599</td>
+      <td><strong>0.772</strong></td>
+    </tr>
+    <tr>
+      <td>Detector + Age estimation with classification model</td>
+      <td>YOLO26x + InsightFace</td>
+      <td>0.223</td>
+      <td>0.263</td>
+      <td>0.245</td>
+      <td>0.302</td>
+    </tr>
+    <tr>
+      <td>Detector + Age estimation with classification model</td>
+      <td>YOLO26x + MiVOLO</td>
+      <td>0.428</td>
+      <td>0.500</td>
+      <td>0.451</td>
+      <td>0.454</td>
+    </tr>
+    <tr>
+      <td>End-to-end MLLM</td>
+      <td>Qwen3.5-4B <em>(all-people prompt)</em></td>
+      <td>0.401</td>
+      <td>0.726</td>
+      <td>0.399</td>
+      <td>0.533</td>
+    </tr>
+    <tr>
+      <td>End-to-end MLLM</td>
+      <td>Qwen3.5-4B <em>(children-only prompt)</em></td>
+      <td>0.417</td>
+      <td>0.733</td>
+      <td>0.413</td>
+      <td>0.567</td>
+    </tr>
+    <tr>
+      <td>End-to-end MLLM</td>
+      <td>Qwen3.6-27B   <em>(all-people prompt)</em></td>
+      <td>0.618</td>
+      <td>0.822</td>
+      <td>0.693</td>
+      <td>0.701</td>
+    </tr>
+    <tr>
+      <td>End-to-end MLLM</td>
+      <td>Qwen3.6-27B   <em>(children-only prompt)</em></td>
+      <td>0.669</td>
+      <td><strong>0.897</strong></td>
+      <td><strong>0.758</strong></td>
+      <td><strong>0.772</strong></td>
+    </tr>
+    <tr>
+      <td>End-to-end MLLM</td>
+      <td>Qwen3.6-35B-A3B  <em>(all-people prompt)</em></td>
+      <td>0.619</td>
+      <td>0.828</td>
+      <td>0.705</td>
+      <td>0.756</td>
+    </tr>
+    <tr>
+      <td>End-to-end MLLM</td>
+      <td>Qwen3.6-35B-A3B  <em>(children-only prompt)</em></td>
+      <td>0.585</td>
+      <td>0.829</td>
+      <td>0.645</td>
+      <td>0.734</td>
+    </tr>
+    <tr>
+      <td>Detector + Age estimation with MLLM</td>
+      <td>YOLO26x + Qwen3.5-4B</td>
+      <td>0.675</td>
+      <td>0.809</td>
+      <td>0.734</td>
+      <td>0.752</td>
+    </tr>
+    <tr>
+      <td>Detector + Age estimation with MLLM</td>
+      <td>YOLO26x + Qwen3.6-27B</td>
+      <td><strong>0.682</strong></td>
+      <td>0.810</td>
+      <td>0.743</td>
+      <td>0.734</td>
+    </tr>
+    <tr>
+      <td>Detector + Age estimation with MLLM</td>
+      <td>YOLO26x + Qwen3.6-35B-A3B</td>
+      <td>0.593</td>
+      <td>0.701</td>
+      <td>0.638</td>
+      <td>0.628</td>
+    </tr>
+  </tbody>
+</table>
+
+	  ]]></description>
+	</item>
+
+
+</channel>
+</rss>

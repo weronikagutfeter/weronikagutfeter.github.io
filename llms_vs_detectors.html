@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Document Settings -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Page Meta -->
+    <title>Classical Object Detectors vs. MLLMs for Child Detection in Images</title>
+    <meta name="description" content="Code repository and notes." />
+
+    <!-- Mobile Meta -->
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Brand icon -->
+    <link rel="shortcut icon" href="/assets/images/favicon.ico" >
+
+    <!-- Styles'n'Scripts -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/syntax.css" />
+
+    <!-- highlight.js -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/default.min.css">
+    <style>.hljs { background: none; }</style>
+
+    <!-- Ghost outputs important style and meta data with this tag -->
+        <link rel="canonical" href="https://weronikagutfeter.github.io/llms_vs_detectors" />
+    <meta name="referrer" content="origin" />
+    
+    
+
+    <meta property="og:site_name" content="Weronika Gutfeter" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Classical Object Detectors vs. MLLMs for Child Detection in Images" />
+    <meta property="og:description" content="Code repository and notes." />
+    <meta property="og:url" content="https://weronikagutfeter.github.io/llms_vs_detectors" />
+    <meta property="og:image" content="/assets/images/cover7.jpg" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Classical Object Detectors vs. MLLMs for Child Detection in Images" />
+    <meta name="twitter:description" content="Code repository and notes." />
+    <meta name="twitter:url" content="https://weronikagutfeter.github.io/llms_vs_detectors" />
+    <meta name="twitter:image:src" content="/assets/images/cover7.jpg" />
+
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Website",
+    "publisher": "Weronika Gutfeter",
+    "name": "Classical Object Detectors vs. MLLMs for Child Detection in Images",
+    "url": "https://weronikagutfeter.github.io/llms_vs_detectors",
+    "image": "/assets/images/cover7.jpg",
+    "description": "Code repository and notes."
+}
+    </script>
+
+    <meta name="generator" content="Jekyll 3.0.0" />
+    <link rel="alternate" type="application/rss+xml" title="Weronika Gutfeter" href="/feed.xml" />
+
+
+</head>
+<body class="home-template nav-closed">
+
+    <!-- The blog navigation links -->
+    <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        <li class="nav-home " role="presentation"><a href="/">Home</a></li>
+<!--        <li class="nav-about " role="presentation"><a href="/about">About</a></li>-->
+<!--        <li class="nav-author " role="presentation"><a href="/author/weronika">Weronika</a></li>-->
+        <li class="nav-github" role="presentation"><a href="https://github.com/weronikagutfeter">GitHub</a></li>
+    </ul>
+    <a class="subscribe-button icon-feed" href="/feed.xml">Subscribe</a>
+</div>
+<span class="nav-cover"></span>
+
+
+    <div class="site-wrapper">
+
+        <!-- All the main content gets inserted here, index.hbs, post.hbs, etc -->
+        <!-- default -->
+
+<!-- The comment above "< default" means - insert everything in this file into -->
+    <!-- the [body] of the default.hbs template, which contains our header/footer. -->
+
+<!-- Everything inside the #post tags pulls data from the post -->
+<!-- #post -->
+
+<header class="main-header author-head " style="background-image: url(/assets/images/cover7.jpg) ">
+    <nav class="main-nav  overlay  clearfix">
+        
+        
+            <a class="menu-button icon-menu" href="#"><span class="word">Menu</span></a>
+        
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post tag-experiments">
+
+        <header class="post-header">
+            <h1 class="post-title">Classical Object Detectors vs. MLLMs for Child Detection in Images</h1>
+            <section class="post-meta">
+            <!-- <a href='/'></a> -->
+
+            
+                
+                    <a href='/author/weronika'>Weronika Gutfeter</a>
+                
+            
+            <time class="post-date" datetime="2024-04-23">23 Apr 2024</time>
+                <!-- [[tags prefix=" on "]] -->
+                
+                on
+                
+                    
+                       <a href='/tag/experiments'>Experiments</a>
+                    
+                
+                
+            </section>
+        </header>
+
+        <section class="post-content">
+
+            <p>The main goal of this experiment is to identify all children appearing in the images from the <a href="../../data/parenting_slop_dataset/README.md">Parenting Slop Dataset</a>. (Links and broader description of data can be found in <strong>data/parenting_slop_dataset</strong> directory). 
+A key assumption is to minimize or eliminate the need for additional data collection for training and do not use cloud-based infrastructure.
+Therefore, all models considered in the comparison are open-source and open-weighted.</p>
+
+<p>The following no-finetune approaches are explored:</p>
+
+<ol>
+  <li><strong>Classical person detector + age estimation:</strong> A conventional object detector is first used to identify all people in the image. An age estimation model is then applied to the detected regions to distinguish children from adults and filter out the latter.</li>
+  <li><strong>MLLM-based child localization:</strong> An MLLM is prompted to identify and localize all children visible in the image, providing a direct end-to-end approach to child detection.</li>
+  <li><strong>Hybrid solutions</strong> Combining the power of the classic detectors and MLLMs</li>
+</ol>
+
+<h3 id="results">Results</h3>
+
+<p>The detection results were evaluated using the standard COCO detection metrics: AP (Mean Average Precision), AP@0.5 (Average Precision at IoU=0.50, AP@0.75 (Average Precision at IoU=0.75 and AR (Average Recall with a maximum of 100 detections per image).</p>
+
+<p>Baseline detector in the comparison was YOLO26x from <a href="https://docs.ultralytics.com/models/yolo26">Ultralytics</a>. For end-to-end pipeline with MLLMs two prompts was used:
+all-people prompt - model was asked to localize all the people in image and attach them a label adult or child, only-children propmpt - model was asked directly to localize only children.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Approach</th>
+      <th>Details</th>
+      <th>AP</th>
+      <th>AP@0.5</th>
+      <th>AP@0.75</th>
+      <th>AR</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Baseline person detector</td>
+      <td>YOLO26x + no age estimation</td>
+      <td>0.546</td>
+      <td>0.672</td>
+      <td>0.599</td>
+      <td><strong>0.772</strong></td>
+    </tr>
+    <tr>
+      <td>Detector + Age estimation with classification model</td>
+      <td>YOLO26x + InsightFace</td>
+      <td>0.223</td>
+      <td>0.263</td>
+      <td>0.245</td>
+      <td>0.302</td>
+    </tr>
+    <tr>
+      <td>Detector + Age estimation with classification model</td>
+      <td>YOLO26x + MiVOLO</td>
+      <td>0.428</td>
+      <td>0.500</td>
+      <td>0.451</td>
+      <td>0.454</td>
+    </tr>
+    <tr>
+      <td>End-to-end MLLM</td>
+      <td>Qwen3.5-4B <em>(all-people prompt)</em></td>
+      <td>0.401</td>
+      <td>0.726</td>
+      <td>0.399</td>
+      <td>0.533</td>
+    </tr>
+    <tr>
+      <td>End-to-end MLLM</td>
+      <td>Qwen3.5-4B <em>(children-only prompt)</em></td>
+      <td>0.417</td>
+      <td>0.733</td>
+      <td>0.413</td>
+      <td>0.567</td>
+    </tr>
+    <tr>
+      <td>End-to-end MLLM</td>
+      <td>Qwen3.6-27B   <em>(all-people prompt)</em></td>
+      <td>0.618</td>
+      <td>0.822</td>
+      <td>0.693</td>
+      <td>0.701</td>
+    </tr>
+    <tr>
+      <td>End-to-end MLLM</td>
+      <td>Qwen3.6-27B   <em>(children-only prompt)</em></td>
+      <td>0.669</td>
+      <td><strong>0.897</strong></td>
+      <td><strong>0.758</strong></td>
+      <td><strong>0.772</strong></td>
+    </tr>
+    <tr>
+      <td>End-to-end MLLM</td>
+      <td>Qwen3.6-35B-A3B  <em>(all-people prompt)</em></td>
+      <td>0.619</td>
+      <td>0.828</td>
+      <td>0.705</td>
+      <td>0.756</td>
+    </tr>
+    <tr>
+      <td>End-to-end MLLM</td>
+      <td>Qwen3.6-35B-A3B  <em>(children-only prompt)</em></td>
+      <td>0.585</td>
+      <td>0.829</td>
+      <td>0.645</td>
+      <td>0.734</td>
+    </tr>
+    <tr>
+      <td>Detector + Age estimation with MLLM</td>
+      <td>YOLO26x + Qwen3.5-4B</td>
+      <td>0.675</td>
+      <td>0.809</td>
+      <td>0.734</td>
+      <td>0.752</td>
+    </tr>
+    <tr>
+      <td>Detector + Age estimation with MLLM</td>
+      <td>YOLO26x + Qwen3.6-27B</td>
+      <td><strong>0.682</strong></td>
+      <td>0.810</td>
+      <td>0.743</td>
+      <td>0.734</td>
+    </tr>
+    <tr>
+      <td>Detector + Age estimation with MLLM</td>
+      <td>YOLO26x + Qwen3.6-35B-A3B</td>
+      <td>0.593</td>
+      <td>0.701</td>
+      <td>0.638</td>
+      <td>0.628</td>
+    </tr>
+  </tbody>
+</table>
+
+
+        </section>
+
+        <footer class="post-footer">
+
+            <!-- Everything inside the #author tags pulls data from the author -->
+            <!-- #author-->
+            
+                
+                    
+                        <figure class="author-image">
+                            <a class="img" href="/author/weronika" style="background-image: url(/assets/images/weronika.png)"><span class="hidden">weronika's Picture</span></a>
+                        </figure>
+                    
+
+                    <section class="author">
+                        <h4><a href="/author/weronika">Weronika Gutfeter</a></h4>
+
+                        
+                            <p> Code repository and research notes.</p>
+                        
+                        <div class="author-meta">
+                            <span class="author-location icon-location"> Poland</span>
+                            <span class="author-link icon-link"><a href="https://weronikagutfeter.github.io/"> weronikagutfeter.github.io</a></span>
+                        </div>
+                    </section>
+
+                    <!-- /author  -->
+
+                    <section class="share">
+                        <h4>Share this post</h4>
+                        <a class="icon-twitter" href="http://twitter.com/share?text=Classical Object Detectors vs. MLLMs for Child Detection in Images&amp;url=https://weronikagutfeter.github.iollms_vs_detectors"
+                            onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                            <span class="hidden">Twitter</span>
+                        </a>
+                        <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://weronikagutfeter.github.iollms_vs_detectors"
+                            onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                            <span class="hidden">Facebook</span>
+                        </a>
+                        <a class="icon-google-plus" href="https://plus.google.com/share?url=https://weronikagutfeter.github.iollms_vs_detectors"
+                           onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                            <span class="hidden">Google+</span>
+                        </a>
+                    </section>
+                
+            
+
+            <!-- Add Disqus Comments -->
+            
+
+        </footer>
+
+    </article>
+
+</main>
+
+<aside class="read-next">
+
+    <!-- [[! next_post ]] -->
+    
+    <!-- [[! /next_post ]] -->
+    <!-- [[! prev_post ]] -->
+    
+    <!-- [[! /prev_post ]] -->
+</aside>
+
+<!-- /post -->
+
+
+        <!-- The tiny footer at the very bottom -->
+        <footer class="site-footer clearfix">
+          <section class="copyright"><a href="/">Weronika Gutfeter</a> &copy; 2026</section>
+          <section class="poweredby">Proudly published with <a href="https://jekyllrb.com/">Jekyll</a> using <a href="https://github.com/jekyllt/jasper">Jasper</a></section>
+        </footer>
+    </div>
+    <!-- highlight.js -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <!-- jQuery needs to come before `` so that jQuery can be used in code injection -->
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <!-- Ghost outputs important scripts and data with this tag -->
+    <!--  -->
+    <!-- Add Google Analytics  -->
+        <!-- Google Analytics Tracking code -->
+     <script>
+	    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	    ga('create', '', 'auto');
+	    ga('send', 'pageview');
+
+     </script>
+    <!-- Fitvids makes video embeds responsive and awesome -->
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <!-- The main JavaScript file for Casper -->
+    <script type="text/javascript" src="/assets/js/index.js"></script>
+
+</body>
+</html>
