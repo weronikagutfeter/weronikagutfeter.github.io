@@ -5,8 +5,8 @@
     </a>
     <ul>
         <li class="nav-home {% if page.current == 'home' %} nav-current{% endif %}" role="presentation"><a href="{{ "/" | relative_url }}">Home</a></li>
-<!--        <li class="nav-about {% if page.current == 'about' %} nav-current{% endif %}" role="presentation"><a href="{{ "about" | relative_url }}">About</a></li>-->
-<!--        <li class="nav-author {% if page.url contains 'weronika' %} nav-current{% endif %}" role="presentation"><a href="{{ "author/weronika" | relative_url }}">Weronika</a></li>-->
+        <li class="nav-about {% if page.current == 'about' %} nav-current{% endif %}" role="presentation"><a href="{{ "about" | relative_url }}">About</a></li>
+        <li class="nav-author {% if page.url contains 'weronika' %} nav-current{% endif %}" role="presentation"><a href="{{ "author/weronika" | relative_url }}">All posts</a></li>
         <li class="nav-github" role="presentation"><a href="https://github.com/weronikagutfeter">GitHub</a></li>
     </ul>
     <a class="subscribe-button icon-feed" href="{{ "feed.xml" | relative_url }}">Subscribe</a>

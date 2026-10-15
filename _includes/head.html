@@ -1,10 +1,10 @@
     <link rel="canonical" href="{{ page.url | absolute_url }}" />
     <meta name="referrer" content="origin" />
     {% if paginator.next_page %}
-    <link rel="next" href="{{ site.baseurl }}page{{ paginator.next_page }}/" />
+    <link rel="next" href="{{  "page" | append: paginator.next_page | relative_url }}" />
     {% endif %}
     {% if paginator.previous_page %}
-    <link rel="prev" href="{% if paginator.previous_page == 1 %}{{ site.baseurl }}{% else %}{{ site.baseurl }}page{{ paginator.previous_page }}/{% endif %}" />
+    <link rel="prev" href="{% if paginator.previous_page == 1 %}{{ '/'| relative_url  }}{% else %}page{{ paginator.previous_page| relative_url }}/{% endif %}" />
     {% endif %}
 
     <meta property="og:site_name" content="{{ site.name }}" />
@@ -12,13 +12,13 @@
     <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.name }}{% endif %}" />
     <meta property="og:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}" />
     <meta property="og:url" content="{{ page.url | absolute_url }}" />
-    <meta property="og:image" content="{% if page.cover %}{{ page.cover | absolute_url }}{% else %}{{ "assets/images/cover1.jpg" | absolute_url }}{% endif %}" />
+    <meta property="og:image" content="{% if page.cover %}{{ page.cover | absolute_url }}{% else %}{{ "assets/images/cover-navy-abstract.jpg" | absolute_url }}{% endif %}" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.name }}{% endif %}" />
     <meta name="twitter:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}" />
     <meta name="twitter:url" content="{{ page.url | absolute_url }}"/>
-    <meta name="twitter:image:src" content="{% if page.cover %}{{ page.cover | absolute_url }}{% else %}{{ "assets/images/cover1.jpg" | absolute_url }}{% endif %}" />
+    <meta name="twitter:image:src" content="{% if page.cover %}{{ page.cover | absolute_url }}{% else %}{{ "assets/images/cover-navy-abstract.jpg" | absolute_url }}{% endif %}" />
 
     <script type="application/ld+json">
 {
@@ -27,7 +27,7 @@
     "publisher": "{{ site.name }}",
     "name": "{% if page.title %}{{ page.title }}{% else %}{{ site.name }}{% endif %}",
     "url": "{{ page.url | absolute_url }}",
-    "image": "{% if page.cover %}{{ page.cover | absolute_url }}{% else %}{{ "assets/images/cover1.jpg" | absolute_url }}{% endif %}",
+    "image": "{% if page.cover %}{{ page.cover | absolute_url }}{% else %}{{ "assets/images/cover-navy-abstract.jpg" | absolute_url }}{% endif %}",
     "description": "{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}"
 }
     </script>
