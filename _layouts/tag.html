@@ -1,6 +1,6 @@
 ---
 layout: default
-cover: 'assets/images/cover2.jpg'
+cover: 'assets/images/cover-navy-abstract.jpg'
 class: 'tag-template'
 navigation: True
 current: tag
@@ -9,9 +9,9 @@ current: tag
 <!-- dynamically overriding backgrounds for tags as well as descriptions -->
 {% if page.url contains 'projects' %}
    {% assign tag_description='Selected repositories and research work.' %}
-   {% assign new_cover='assets/images/cover3.jpg' %}
+   {% assign new_cover='assets/images/forestf.jpg' %}
 {% elsif page.url contains 'meta' %}
-    {% assign new_cover='assets/images/cover2.jpg' %}
+    {% assign new_cover='assets/images/cover-navy-abstract.jpg' %}
     {% assign tag_description='Site notes and updates.' %}
 {% endif %}
 
