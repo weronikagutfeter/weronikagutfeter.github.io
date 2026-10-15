@@ -19,7 +19,9 @@ baseurl: "/"
 permalink: /:title
 
 # gems and other configs
-plugins: [jekyll-paginate]
+plugins: [jekyll-paginate, jekyll-remote]
+
+remote-theme: jekyllt/jasper
 
 safe: false
 lsi: false
