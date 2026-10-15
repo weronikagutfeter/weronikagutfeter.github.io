@@ -12,7 +12,7 @@ categories: weronika
 
 The story behind this experiment started when I was on maternity leave. I noticed that social platforms started suggesting more movies with children to me (which wasn't surprising). Among them, I got a lot of synthetically generated movies of different animals stealing or attacking babies. The more I clicked on them, the stranger the animals appeared in the clips. My top find was a cassowary escaping with a little kid in its beak (I even needed to check the bird's name, because it's not popular in Poland, where I live). At some point, I started downloading some of the clips, since I thought other people wouldn't believe how strange the content was. As a researcher, and because my last project involved working on NSFW content with children, I decided to add more diverse data to synthetic movies and to create a database for further analysis of children's presence in real and AI-generated videos. However, I’m aware of the bias in the dataset toward clips with animals and children.
 
-![image](assets/images/posts/Samples_gt.jpg)
+![image](assets/images/posts/Samples_gt.jpg | relative_url)
 
 I called it the Parenting Slop Dataset and made it available online on the platform Zenodo ([Parenting Slop Dataset on Zenodo](https://zenodo.org/records/22092731))
 
