@@ -29,7 +29,6 @@ branch: master
 production_url: https://weronikagutfeter.github.io/
 source_url: https://github.com/weronikagutfeter/weronikagutfeter.github.io/
 
-
 exclude:
   - README.md
   - Rakefile
