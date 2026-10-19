@@ -10,9 +10,22 @@ author: weronika
 categories: weronika
 ---
 
+**Nowadays, multimodal large language models (MLLMs) seem to be the answer to almost every computer vision task. However, they are not usually used as a replacement for classical object detectors such as YOLO. Replacing fast and reliable methods with much slower and more resource-intensive MLLMs rarely makes sense. The situation is different for tasks that fall outside the scope of off-the-shelf detectors, such as detecting objects that are not included in the COCO categories. Collecting additional data to train or fine-tune models can also be time-consuming, making MLLMs an interesting alternative for these kinds of problems.
+
+Child detection is one example of such a task. High-performing person detectors are readily available, but distinguishing children from adults is a different challenge. Combining person detection with an age estimation method to filter out adults without fine-tuning both methods can lead to disappointing results. 
+
+In this experiment, two fundamentally different approaches to child detection were compared: a classical object detector (YOLO26X) and an MLLM (Qwen3.5-27B). After some preliminary experiments, a third approach was added: a hybrid solution in which the person detector handles localization while the MLLM estimates age. This approach seems to combine some of the strengths of both architectures.**
+
+<!--more-->
+
+|                |                                                                                  Supplementary materials:                                                                                   | 
+|:---------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:| 
+| Link to report | ["Classical Object Detectors vs. MLLMs for Child Detection in Images: A Preliminary Study"](https://github.com/weronikagutfeter/MinorsReport/blob/main/reports/2026_llms_and_detectors.pdf) |
+| Link to codes  |                                 [experiment: llms_and_detectors](https://github.com/weronikagutfeter/MinorsReport/tree/main/experiments/llms_and_detectors)                                 | 
+
 The story behind this experiment started when I was on maternity leave. I noticed that social platforms started suggesting more movies with children to me (which wasn't surprising). Among them, I got a lot of synthetically generated movies of different animals stealing or attacking babies. The more I clicked on them, the stranger the animals appeared in the clips. My top find was a cassowary escaping with a little kid in its beak (I even needed to check the bird's name, because it's not popular in Poland, where I live). At some point, I started downloading some of the clips, since I thought other people wouldn't believe how strange the content was. As a researcher, and because my last project involved working on NSFW content with children, I decided to add more diverse data to synthetic movies and to create a database for further analysis of children's presence in real and AI-generated videos. However, I’m aware of the bias in the dataset toward clips with animals and children.
 
-![image](/assets/images/posts/Samples_gt.jpg)
+![image](assets/images/posts/Samples_gt.jpg)
 
 I called it the Parenting Slop Dataset and made it available online on the platform Zenodo ([Parenting Slop Dataset on Zenodo](https://zenodo.org/records/22092731))
 
@@ -30,7 +43,6 @@ The following no-finetune approaches are explored:
 1. **MLLM-based child localization:** An MLLM is prompted to identify and localize all children visible in the image, providing a direct end-to-end approach to child detection.
 1. **Hybrid solution** Combining the classic detector and age estimation MLLMs
 
-More details of the experiment can be found in the draft: [link to the paper](https://github.com/weronikagutfeter/MinorsReport/blob/main/reports/2026_llms_and_detectors.pdf)
 
 ### Classical person detectors
 
