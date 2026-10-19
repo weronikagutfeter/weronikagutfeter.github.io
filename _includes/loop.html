@@ -20,7 +20,7 @@
             <h2 class="post-title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
         </header>
         <section class="post-excerpt">
-            <p>{{ post.content | split:'<!--more-->' | first | strip_html | truncatewords: 120 | replace: '**', ''}} <a class="read-more" href="{{ post.url | relative_url }}">&raquo;</a></p>
+            <p>{{ post.content | split:'<!--more-->' | first | strip_html | truncatewords: 120 | replace: '#####', ''}} <a class="read-more" href="{{ post.url | relative_url }}">&raquo;</a></p>
         </section>
         <footer class="post-meta">
             {% for author in site.data.authors %}
