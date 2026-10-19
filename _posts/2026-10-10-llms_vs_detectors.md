@@ -10,9 +10,8 @@ author: weronika
 categories: weronika
 ---
 
-#### Nowadays, multimodal large language models (MLLMs) seem to be the answer to almost every computer vision task. However, they are not usually used as a replacement for classical object detectors such as YOLO. Replacing fast and reliable methods with much slower and more resource-intensive MLLMs rarely makes sense. The situation is different for tasks that fall outside the scope of off-the-shelf detectors, such as detecting objects that are not included in the COCO categories. Collecting additional data to train or fine-tune models can also be time-consuming, making MLLMs an interesting alternative for these kinds of problems.
-
-Child detection is one example of such a task. High-performing person detectors are readily available, but distinguishing children from adults is a different challenge. Combining person detection with an age estimation method to filter out adults without fine-tuning both methods can lead to disappointing results. 
+_Nowadays, multimodal large language models (MLLMs) seem to be the answer to almost every computer vision task. However, they are not usually used as a replacement for classical object detectors such as YOLO. Replacing fast and reliable methods with much slower and more resource-intensive MLLMs rarely makes sense. The situation is different for tasks that fall outside the scope of off-the-shelf detectors, such as detecting objects that are not included in the COCO categories. Collecting additional data to train or fine-tune models can also be time-consuming, making MLLMs an interesting alternative for these kinds of problems.
+Child detection is one example of such a task. High-performing person detectors are readily available, but distinguishing children from adults is a different challenge. Combining person detection with an age estimation method to filter out adults without fine-tuning both methods can lead to disappointing results._ 
 <!--more-->
 In this experiment, two fundamentally different approaches to child detection were compared: a classical object detector (YOLO26X) and an MLLM (Qwen3.5-27B). After some preliminary experiments, a third approach was added: a hybrid solution in which the person detector handles localization while the MLLM estimates age. This approach seems to combine some of the strengths of both architectures.
 
