@@ -20,7 +20,7 @@ In this experiment, two fundamentally different approaches to child detection we
 
 |                |                                                                                  Supplementary materials:                                                                                   | 
 |:---------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:| 
-| Link to report | ["Classical Object Detectors vs. MLLMs for Child Detection in Images: A Preliminary Study"](https://github.com/weronikagutfeter/MinorsReport/blob/main/reports/2026_llms_and_detectors.pdf) |
+| Link to report | ["Classical Object Detectors vs. MLLMs for Child Detection in Images: A Preliminary Study"](https://github.com/weronikagutfeter/MinorsReport/blob/main/reports/2026_Gutfeter_detectors_vs_llms.pdf) |
 | Link to codes  |                                 [experiment: llms_and_detectors](https://github.com/weronikagutfeter/MinorsReport/tree/main/experiments/llms_and_detectors)                                 | 
 
 ### The Parenting Slop Dataset
@@ -37,20 +37,30 @@ The collection consists of 20 movie clips showing children in various situations
 
 
 The main goal of this experiment is to identify all children appearing in the images from the Parenting Slop Dataset.
-A key assumption is to minimize or eliminate the need for additional data collection for training and to avoid cloud-based infrastructure. Therefore, all models considered in the comparison are open-source and open-weighted.
+A key assumption is to minimize or eliminate the need for additional training data and to avoid cloud-based infrastructure. Therefore, all models and methods considered in the comparison are open-source and open-weighted.
 
-The following no-finetune approaches are explored:
+The most common solution to this type of task is to build a method with classical object detectors, such as YOLO, DETR, or Faster R-CNN. In this approach, method can be single-stage - detector is trained to localize children or two-stage: in the first stage all people in the image are localized using person detector and the with the application of age estimator all adults are filtered out from the results. In the single-stage method, training or fine-tuning a model is necessary, as it is hard to find an off-the-shelf model performing such a task.
+
+Using a multimodal large language model (MLLM) seems to be another straightforward solution to this task; however, it is not commonly applied, even the models themselves happen to suggest using a classical detector instead of a prompt. Another limitation is that images with children can be considered sensitive data; therefore, they should be processed on the local machine without sending images to the external server. This narrows the choice of MLLMs to smaller, open-weight models.
+
+
+
+To sum up the methodology, the following no-finetune approaches are explored in this experiment:
 
 1. **Classical person detector + age estimation:** A conventional object detector is first used to identify all people in the image. An age estimation model is then applied to the detected regions to distinguish children from adults and filter out the latter.
 1. **MLLM-based child localization:** An MLLM is prompted to identify and localize all children visible in the image, providing a direct end-to-end approach to child detection.
 1. **Hybrid solution** Combining the classic detector and age estimation MLLMs
 
 
+
 ### Classical person detectors
 
-State-of-the-art (SOTA) object detectors are commonly trained and evaluated on COCO, which defines a fixed set of object categories, including person. Although this category does not distinguish between adults and children, it can provide a basis for child detection. A straightforward way to adapt a general-purpose person detector to the task of child detection is to first localize all people in an image and then determine their age. 
+State-of-the-art object detectors are commonly trained and evaluated on COCO, which defines a fixed set of object categories, including person. A straightforward way to adapt a general-purpose person detector to child detection is to first localize all people in an image and then to determine their age by applying an age estimator. There are various models of age estimation; in this experiment, two of them were used: [InsightFace](https://github.com/deepinsight/insightface) - part of the face analysis toolbox and [MiVOLO](https://github.com/wildchlamydia/mivolo), which has two branches for predicting age: one for face and one for body. Generally, publicly available age estimators rely heavily on the features computed from the face area, which can be problematic for datasets where the face of the subjects is not always visible. 
+
 
 ### MLLM-based child localization
+
+Multimodal large language models (MLLMs) are Transformer-based models that can analyze both images and text. However, they are not specifically optimized for object detection, what some of them tend to mention when being prompted about localizing objects in the image. Nevertheless, I wanted to test how well they perform on this task without additional structural modifications to the network. I considered only open-weight models that can run locally on my machine (laptop with Nvidia GeForce 3080). I checked five of them: Gemma3-4B, Gemma4-E4B, Qwen3.5-4B, Qwen3.6-27B, and Qwen3.6-35B-A3B. All of them were downloaded from [Unsloth repository](https://unsloth.ai/) and served using Llama.cpp.
 
 For the detection task, two types of prompts were tested:
 
@@ -63,7 +73,7 @@ For the detection task, two types of prompts were tested:
 > Detect all the children in the image and return their locations and descriptions in the form of coordinates. Results should be in JSON format: { 'user': {'bbox': [x1, y1, x2, y2], 'description': 'description of the person', 'label':'adult/child' } }.
 
 
-Despite the detailed instructions, the models did not always return valid JSON. The outputs generated by the MLLMs required post-processing before they could be used for evaluation.
+Despite the detailed instructions, the models did not always return valid JSON. The MLLM outputs required post-processing before they could be used for evaluation. It was hard to obtain coordinates in a consistent format from Gemma models, so they don't appear in the comparison.
 
 ### MMLM-based age estimation
 
