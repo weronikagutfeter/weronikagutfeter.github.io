@@ -101,4 +101,14 @@ The detection results were evaluated using the standard COCO detection metrics: 
 | Detector + Age estimation with MLLM                 | YOLO26x + Qwen3.6-27B       |**0.682**| 0.810 | 0.743 | 0.734     |
 | Detector + Age estimation with MLLM                 | YOLO26x + Qwen3.6-35B-A3B   | 0.593| 0.701 |0.638|0.628|
 
-[//]: # (### Conclusions)
+### Conclusions
+
+Classical object detectors are predictable and reliable: the same input produces the same output, and the results follow a predefined format. They are also generally fast. However, these models are designed for specific tasks, which limits their flexibility. When a new task or different type of data comes along, adapting the model may require additional training or changes to its architecture. As a result, performance depends heavily on the quality and representativeness of the training data.
+
+In this experiment, person detection was combined with age estimation to filter out adults. Unfortunately, this approach did not work as well as expected. Both tested age-estimation methods reduced precision and recall compared with the baseline person detector without age filtering. One possible reason is that these models rely heavily on facial features to estimate age, while many people in the dataset were captured in unconstrained conditions, with their faces partially or completely hidden.
+
+Multimodal large language models (MLLMs), on the other hand, offer much more flexibility. They can handle complex visual reasoning and classification tasks without additional task-specific training. However, this flexibility comes with a few drawbacks. Their outputs are less predictable, and the results can depend on how the prompt is written. Even when the response contains the expected information, it does not always follow the required format. In this experiment, many responses were close to the expected JSON structure but included extra text or formatting errors that prevented direct parsing. Some heuristic post-processing was therefore needed. MLLMs were also considerably slower than classical object detectors when processing the entire dataset.
+
+A third option combines the two approaches: first, a classical detector identifies people, and then an MLLM analyzes each detected person separately. This hybrid approach achieved slightly higher average precision (AP) than end-to-end MLLM-based detection, although it also required more computation. Despite the additional cost, it offers an interesting direction for building more advanced detection systems. Processing time could potentially be reduced through batching, optimization, or more efficient model deployment.
+
+The main advantage of this hybrid approach is that it combines the speed and structured outputs of classical detectors with the flexibility of MLLMs. Instead of replacing a reliable object detector with a much more resource-intensive model, an MLLM can provide additional information that the detector cannot obtain on its own without retraining. This makes it possible to extend the capabilities of an existing detection system while keeping its core components predictable and easy to work with.
